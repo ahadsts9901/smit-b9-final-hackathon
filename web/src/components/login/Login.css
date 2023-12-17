@@ -1,0 +1,11 @@
+.loginMain{
+    box-shadow: 0 0 16px #ccc;
+}
+
+.loginMain>input{
+    border: 1px solid #f6f6f6;
+}
+
+.loginMain>input:hover, .loginMain>input:active, .loginMain>input:focus{
+    border: 1px solid #0099ff;
+}
