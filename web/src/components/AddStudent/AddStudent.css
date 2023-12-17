@@ -1,0 +1,11 @@
+.addStudentInputs:hover, .addStudentInputs:active, .addStudentInputs:focus{
+    border: 1px solid #0099ff;
+}
+
+.addStudentForm{
+    z-index: 20;
+    position: fixed;
+    top: 3em;
+    left: 30%;
+    box-shadow: 0 0 16px #ccc;
+}
