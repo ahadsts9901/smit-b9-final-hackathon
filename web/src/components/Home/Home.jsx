@@ -1,12 +1,32 @@
 import React, { useContext, useState } from 'react'
 import { GlobalContext } from "../../context/context";
 import Modal from '../Modal/Modal';
+import axios from 'axios';
+import moment from 'moment';
+import { baseUrl } from '../../core.mjs';
+
 
 const Home = () => {
 
   const [showModal, setShowModal] = useState(false)
-
   const { state, dispatch } = useContext(GlobalContext);
+
+  const checkInTime = moment(state.user.checkInTime);
+  const checkOutTime = moment(state.user.checkOutTime);
+  const timeDifferenceMs = checkOutTime.diff(checkInTime);
+  const duration = moment.duration(timeDifferenceMs);
+  const hours = duration.hours();
+
+  const isCheckedIn = hours <= 23
+
+  const logout = async () => {
+    try {
+      const resp = await axios.post(`${baseUrl}/api/v1/logout`)
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -28,7 +48,13 @@ const Home = () => {
           <p className='text-[1.2em] text-[#888]'>Check Out Time</p>
           <p className='text-[1.2em] text-[#353535]'>{state.user.checkOutTime || "------------"}</p>
         </div>
-        <button onClick={() => setShowModal(true)} type='submit' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>Check In</button>
+        {
+          isCheckedIn ?
+            <button  type='submit' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>Check Out</button>
+            :
+            <button onClick={() => setShowModal(true)} type='submit' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>Check In</button>
+        }
+        <button onClick={logout} type='button' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>Logout</button>
       </div>
     </>
   )

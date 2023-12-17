@@ -1,12 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import "./Modal.css";
 import "../main.css";
 import { CameraFill, ArrowLeft } from 'react-bootstrap-icons';
 import { baseUrl } from "../../core.mjs";
+import { GlobalContext } from "../../context/context";
 
 const Modal = (props) => {
+
+    const { state, dispatch } = useContext(GlobalContext);
+
     const selectedImageRef = useRef(null);
     const fileRef = useRef();
     const { setShowModal } = props;
@@ -21,13 +25,11 @@ const Modal = (props) => {
             return;
         }
 
-
-
         let formData = new FormData();
         formData.append("files", fileRef.current.files[0])
 
         try {
-            const response = await axios.put(`${baseUrl}/api/v1/check-in`, formData, {
+            const response = await axios.put(`${baseUrl}/api/v1/check-in/${state.user.userId}`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             })
 
@@ -56,7 +58,7 @@ const Modal = (props) => {
 
         } catch (error) {
             console.error(error);
-            setMessage("Error in checking in")
+            setMessage("Already Checked in, try later")
         }
 
     }

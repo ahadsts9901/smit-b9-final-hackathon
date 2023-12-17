@@ -32,12 +32,17 @@ router.post('/login', async (req, res, next) => {
     try {
         let result = await studentCol.findOne({ email: req.body.email });
 
+        console.log("moin", result);
+
         if (!result) {
             res.status(403).send({
                 message: "email or password incorrect"
             });
             return;
         }
+
+        console.log(result);
+
         const isMatch = req.body.email === result.email
 
         if (isMatch) {
@@ -50,6 +55,8 @@ router.post('/login', async (req, res, next) => {
                 email: req.body.email,
                 course: result.course,
                 phoneNumber: result.phoneNumber,
+                checkInTime: result.checkInTime,
+                checkOutTime: result.checkOutTime,
             }, process.env.SECRET, {
                 expiresIn: '24h'
             });

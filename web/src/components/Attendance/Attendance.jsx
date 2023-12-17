@@ -15,18 +15,27 @@ const Attendance = () => {
   useEffect(() => {
     getAllStudents()
   }, [])
-  
+
   const getAllStudents = async () => {
-  
+
     try {
-  
+
       const response = await axios.get(`${baseUrl}/api/v1/students`)
       setStudents(response.data.data)
-  
+
     } catch (error) {
       console.log(error);
     }
-  
+
+  }
+
+  const logout = async () => {
+    try {
+      const resp = await axios.post(`${baseUrl}/api/v1/logout`)
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -50,7 +59,7 @@ const Attendance = () => {
               <p className='text-[#212121]'>Attendance</p>
             </Link>
           </div>
-          <p className='text-left w-[100%] mt-[auto] text-[1.2em]'>Logout</p>
+          <p className='text-left w-[100%] mt-[auto] text-[1.2em] cursor-pointer' onClick={logout}>Logout</p>
         </div>
 
         {/* right side */}
@@ -62,7 +71,7 @@ const Attendance = () => {
               </span>
               <h1 className='text-[2em]'>Attendance</h1>
             </div>
-            </div>
+          </div>
           <div className='bg-[#0099ff] text-[#fff] w-[100%] px-[2.5em] py-[1.5em] rounded-[5px] flex items-center gap-[2.5em]'>
             <p className='w-[5em]'>Id</p>
             <p className='w-[7em]'>Profile Image</p>

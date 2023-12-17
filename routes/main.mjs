@@ -2,6 +2,7 @@ import express from 'express';
 import { client } from '../mongodb.mjs'
 import { ObjectId } from 'mongodb';
 import jwt from 'jsonwebtoken';
+import moment from "moment"
 import "dotenv/config"
 
 import { upload } from "../multer.mjs"
@@ -11,6 +12,12 @@ const db = client.db("smit-final-hackathon")
 const studentCol = db.collection("students")
 
 let router = express.Router()
+
+// logout
+router.post("/logout", async (req, res, next) => {
+    res.clearCookie("token")
+    res.send({ message: 'Logout successful' });
+});
 
 // add student
 router.post('/add-student', upload.any(), async (req, res, next) => {
@@ -51,8 +58,8 @@ router.post('/add-student', upload.any(), async (req, res, next) => {
             phoneNumber: req.body.phoneNumber,
             profileImage: cloudinaryResponse.url,
             isAdmin: false,
-            checkInTime: null,
-            checkOutTime: null
+            checkInTime : new Date(),
+            checkOutTime :  new Date(),
         })
 
         res.send({
@@ -102,6 +109,8 @@ router.get('/ping', async (req, res, next) => {
                 course: result.course,
                 phoneNumber: result.phoneNumber,
                 profileImage: result.profileImage,
+                checkInTime: result.checkInTime,
+                checkOutTime: result.checkOutTime,
             }
         });
 
@@ -230,9 +239,9 @@ router.put('/student/:studentId', upload.any(), async (req, res) => {
 });
 
 // check in
-router.put('/check-in', upload.any(), async (req, res) => {
+router.put('/check-in/:studentId', upload.any(), async (req, res) => {
 
-    const studentId = req.body.currentUser._id;
+    const studentId = req.params.studentId;
 
     if (!studentId) {
         res.status(400).send({
@@ -253,10 +262,31 @@ router.put('/check-in', upload.any(), async (req, res) => {
     }
 
     try {
-        
-        const user = studentCol.findOne({_id: new ObjectId(studentId)})
 
-        console.log(user);
+        const user = studentCol.findOne({ _id: new ObjectId(studentId) })
+
+        const checkInTime = moment(user.checkInTime);
+        const checkOutTime = moment(user.checkOutTime);
+
+        const timeDifferenceMs = checkOutTime.diff(checkInTime);
+        const duration = moment.duration(timeDifferenceMs);
+        const hours = duration.hours();
+
+        if (hours <= 23) {
+            res.status(400).send({
+                message: "already checked in"
+            })
+            return
+        }
+
+        const resp = studentCol.updateOne(
+            { _id: studentId },
+            { $set: { checkInTime: new Date().toISOString } }
+        )
+
+        res.send({
+            message: "check in successfull"
+        })
 
     } catch (error) {
         console.error(error);
@@ -264,7 +294,7 @@ router.put('/check-in', upload.any(), async (req, res) => {
             message: "internal server error",
         });
     }
-    
+
 });
 
 export default router

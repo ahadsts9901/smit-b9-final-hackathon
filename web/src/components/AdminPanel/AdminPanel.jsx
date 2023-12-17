@@ -51,6 +51,15 @@ const AdminPanel = () => {
 
   }
 
+  const logout = async () => {
+    try {
+      const resp = await axios.post(`${baseUrl}/api/v1/logout`)
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       {
@@ -78,7 +87,7 @@ const AdminPanel = () => {
               <p className='text-[#888]'>Attendance</p>
             </Link>
           </div>
-          <p className='text-left w-[100%] mt-[auto] text-[1.2em]'>Logout</p>
+          <p className='text-left w-[100%] mt-[auto] text-[1.2em] cursor-pointer' onClick={logout}>Logout</p>
         </div>
 
         {/* right side */}
@@ -112,7 +121,7 @@ const AdminPanel = () => {
                   {
                     showPass ?
                       <EyeFill className='cursor-pointer' onClick={() => setShowPass(!showPass)} /> :
-                      <EyeSlashFill className='cursor-pointer' onClick={() => setShowPass(!showPass)}/>
+                      <EyeSlashFill className='cursor-pointer' onClick={() => setShowPass(!showPass)} />
                   }
                 </div>
               )) : null
