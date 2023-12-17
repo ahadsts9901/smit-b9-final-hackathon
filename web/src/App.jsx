@@ -1,5 +1,6 @@
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
+import AdminPanel from "./components/AdminPanel/AdminPanel";
 
 import { useEffect, useContext, useState } from "react";
 import {
@@ -92,6 +93,7 @@ const App = () => {
         <>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/admin-panel" element={<AdminPanel/>} />
             <Route path="*" element={<Navigate to="/login" replace={true} />} />
           </Routes>
         </>
