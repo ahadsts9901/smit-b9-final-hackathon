@@ -44,6 +44,7 @@ const Login = () => {
       });
 
       setMessage("Login successful")
+      window.location.reload()
 
     } catch (error) {
       console.error(error);
