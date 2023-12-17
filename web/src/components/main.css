@@ -45,39 +45,39 @@ a {
 }
 
 a {
-  color: #284352;
+  color: #0099ff;
 }
 
 #root::-moz-scrollbar {
   width: 4px;
-  background-color: #28435200;
+  background-color: #0099ff00;
 }
 
 #root::-moz-scrollbar-thumb {
   width: 4px !important;
-  background-color: #284352;
+  background-color: #0099ff;
   border: none;
   border-radius: 5px !important;
 }
 
 #root::-moz-scrollbar-track {
   width: 4px;
-  background-color: #28435200;
+  background-color: #0099ff00;
 }
 
 #root::-webkit-scrollbar-track {
   width: 4px;
-  background-color: #28435200;
+  background-color: #0099ff00;
 }
 
 #root::-webkit-scrollbar {
   width: 4px;
-  background-color: #28435200;
+  background-color: #0099ff00;
 }
 
 #root::-webkit-scrollbar-thumb {
   width: 4px !important;
-  background-color: #284352;
+  background-color: #0099ff;
   border: none;
   border-radius: 5px !important;
 }
