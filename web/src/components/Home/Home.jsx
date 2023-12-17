@@ -1,14 +1,14 @@
 import React from 'react'
 
+import "./Home.css"
 import "../main.css"
-import "./Login.css"
 
-const Login = () => {
+const Home = () => {
   return (
     <div>
-      Login
+      Home
     </div>
   )
 }
 
-export default Login
+export default Home

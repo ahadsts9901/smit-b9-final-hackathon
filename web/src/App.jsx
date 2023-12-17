@@ -1,3 +1,5 @@
+import Home from "./components/Home/Home";
+import Login from "./components/Login/Login";
 
 import { useEffect, useContext, useState } from "react";
 import {
