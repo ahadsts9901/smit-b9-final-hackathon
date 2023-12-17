@@ -16,6 +16,7 @@ import axios from "axios";
 
 import { baseUrl } from "./core.mjs";
 import Attendance from "./components/Attendance/Attendance";
+import Home from "./components/Home/Home";
 
 const App = () => {
   const { state, dispatch } = useContext(GlobalContext);
@@ -66,6 +67,8 @@ const App = () => {
       {state.isLogin === true && state.user.isAdmin === false ? (
         <>
           <Routes>
+          <Route path="/" element={<Home/>} />
+            <Route path="*" element={<Navigate to="/" replace={true} />} />
           </Routes>
         </>
       ) : null}

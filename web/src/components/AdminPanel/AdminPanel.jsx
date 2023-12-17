@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import axios from 'axios'
 import { baseUrl } from "../../core.mjs"
 
-import { ArrowLeft, Camera, CameraFill, ClipboardData, MortarboardFill, PencilFill, EyeFill, Person, PlusCircleFill } from "react-bootstrap-icons"
+import { ArrowLeft, Camera, CameraFill, ClipboardData, MortarboardFill, PencilFill, EyeFill, Person, PlusCircleFill, EyeSlashFill } from "react-bootstrap-icons"
 
 import AddStudent from '../AddStudent/AddStudent'
 
@@ -17,6 +17,7 @@ const AdminPanel = () => {
   const [students, setStudents] = useState([])
   const [isEditStudent, setIsEditStudent] = useState(false)
   const [student, setStudent] = useState()
+  const [showPass, setShowPass] = useState(false)
 
   useEffect(() => {
     getAllStudents()
@@ -100,15 +101,19 @@ const AdminPanel = () => {
           </div>
           <div className='studentsCont w-[100%] flex flex-col gap-[1em] h-[100%]'>
             {
-              students ? students.map((student) => (
-                <div className='bg-[#fff] text-[#353535] w-[100%] px-[2.5em] py-[1.5em] rounded-[5px] flex items-center gap-[2.5em]'>
+              students ? students.map((student, index) => (
+                <div key={index} className='bg-[#fff] text-[#353535] w-[100%] px-[2.5em] py-[1.5em] rounded-[5px] flex items-center gap-[2.5em]'>
                   <p className='w-[5em]'>{student._id.slice(-6)}</p>
                   <div className='w-[7em] flex justify-center items-center'><img src={student.profileImage} className='w-[2em] h-[2em] object-cover rounded-[100%]' /></div>
                   <p className='w-[8em]'>{student.firstName} {student.lastName}</p>
                   <p className='w-[7em]'>{student.course}</p>
-                  <p className='w-[6em]'>{student.password}</p>
+                  <input type={showPass ? "text" : "password"} className='w-[6em]' value={student.password} readOnly />
                   <PencilFill onClick={() => { editStudent(student._id) }} className='cursor-pointer' />
-                  <EyeFill className='cursor-pointer' />
+                  {
+                    showPass ?
+                      <EyeFill className='cursor-pointer' onClick={() => setShowPass(!showPass)} /> :
+                      <EyeSlashFill className='cursor-pointer' onClick={() => setShowPass(!showPass)}/>
+                  }
                 </div>
               )) : null
             }

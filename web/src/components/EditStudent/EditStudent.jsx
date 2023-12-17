@@ -61,9 +61,10 @@ const EditStudent = (props) => {
         formData.append("files", fileRef.current.files[0])
 
         try {
+            
             const response = await axios.put(`${baseUrl}/api/v1/student/${student?._id}`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
-            })
+            }) 
 
             // sweet alert toast
             const Toast = Swal.mixin({
@@ -83,11 +84,7 @@ const EditStudent = (props) => {
 
             event.target.reset()
             getAllStudents()
-
-            setTimeout(() => {
-                setIsEditStudent(false)
-            }, [1000])
-
+            setIsEditStudent(false)
 
         } catch (error) {
             console.error(error);

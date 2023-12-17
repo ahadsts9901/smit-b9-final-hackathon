@@ -50,7 +50,9 @@ router.post('/add-student', upload.any(), async (req, res, next) => {
             course: req.body.course,
             phoneNumber: req.body.phoneNumber,
             profileImage: cloudinaryResponse.url,
-            isAdmin: false
+            isAdmin: false,
+            checkInTime: null,
+            checkOutTime: null
         })
 
         res.send({
@@ -173,7 +175,7 @@ router.put('/student/:studentId', upload.any(), async (req, res) => {
         return;
     }
 
-    if (req.files) {
+    if (req.files.length > 0) {
         const localFilePath = req.files[0].path;
         const cloudinaryResponse = await uploadOnCloudinary(localFilePath);
 
@@ -225,6 +227,44 @@ router.put('/student/:studentId', upload.any(), async (req, res) => {
             });
         }
     }
+});
+
+// check in
+router.put('/check-in', upload.any(), async (req, res) => {
+
+    const studentId = req.body.currentUser._id;
+
+    if (!studentId) {
+        res.status(400).send({
+            message: "invalid student id"
+        })
+        return;
+    }
+
+    if (!req.files) {
+        res.status(400).send({
+            message: `required parameters missing eample request body: 
+                {
+                    "image" : "image"
+                }
+                `
+        })
+        return;
+    }
+
+    try {
+        
+        const user = studentCol.findOne({_id: new ObjectId(studentId)})
+
+        console.log(user);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "internal server error",
+        });
+    }
+    
 });
 
 export default router
