@@ -3,40 +3,34 @@ import { Link } from "react-router-dom"
 import axios from 'axios'
 import { baseUrl } from "../../core.mjs"
 
-import { ArrowLeft, Camera, CameraFill, ClipboardData, MortarboardFill, Person, PlusCircleFill } from "react-bootstrap-icons"
+import { ClipboardData, MortarboardFill, Person, PlusCircleFill } from "react-bootstrap-icons"
 
-import AddStudent from '../AddStudent/AddStudent'
-
-import "./AdminPanel.css"
+import "./Attendance.css"
 import "../main.css"
 
-const AdminPanel = () => {
+const Attendance = () => {
 
-  const [modal, setModal] = useState(false)
-  const [students, setStudents] = useState([])
+  const [students, setStudents] = useState()
 
   useEffect(() => {
     getAllStudents()
   }, [])
-
+  
   const getAllStudents = async () => {
-
+  
     try {
-
+  
       const response = await axios.get(`${baseUrl}/api/v1/students`)
       setStudents(response.data.data)
-
+  
     } catch (error) {
       console.log(error);
     }
-
+  
   }
 
   return (
     <>
-      {
-        modal ? <AddStudent setModal={setModal} getAllStudents={getAllStudents} /> : null
-      }
       <div className='mainAdminPanel flex gap-0 h-[100vh] w-[100vw]'>
 
         {/* left side */}
@@ -47,13 +41,13 @@ const AdminPanel = () => {
               <span className='text-[#0099ff]  p-[0.5em] bg-[#f6f6f6] rounded-[100%]'>
                 <Person />
               </span>
-              <p className='text-[#212121]'>Students</p>
+              <p className='text-[#888]'>Students</p>
             </Link>
             <Link to={"/attendance"} className='text-[#353535] flex justify-start items-center gap-[0.5em] w-[100%]'>
               <span className='text-[#0099ff]  p-[0.5em] bg-[#f6f6f6] rounded-[100%]'>
                 <ClipboardData />
               </span>
-              <p className='text-[#888]'>Attendance</p>
+              <p className='text-[#212121]'>Attendance</p>
             </Link>
           </div>
           <p className='text-left w-[100%] mt-[auto] text-[1.2em]'>Logout</p>
@@ -66,16 +60,15 @@ const AdminPanel = () => {
               <span className='text-[1.8em] text-[#fff] bg-[#0099ff] rounded-[100%] p-[0.5em]'>
                 <Person />
               </span>
-              <h1 className='text-[2em]'>Students</h1>
+              <h1 className='text-[2em]'>Attendance</h1>
             </div>
-            <button onClick={() => setModal(true)} className='text-[#fff] flex justify-center items-center gap-[1em] bg-[#0099ff] w-[9em] p-[0.5em] rounded-[5px]'><PlusCircleFill /> <p>Add Student</p></button>
-          </div>
+            </div>
           <div className='bg-[#0099ff] text-[#fff] w-[100%] px-[2.5em] py-[1.5em] rounded-[5px] flex items-center gap-[2.5em]'>
             <p className='w-[5em]'>Id</p>
             <p className='w-[7em]'>Profile Image</p>
             <p className='w-[8em]'>Name</p>
-            <p className='w-[7em]'>Course Name</p>
-            <p>Password</p>
+            <p className='w-[10em]'>Checked In Time</p>
+            <p>Checked Out Time</p>
           </div>
           <div className='studentsCont w-[100%] flex flex-col gap-[1em] h-[100%]'>
             {
@@ -84,8 +77,8 @@ const AdminPanel = () => {
                   <p className='w-[5em]'>{student._id.slice(-6)}</p>
                   <div className='w-[7em] flex justify-center items-center'><img src={student.profileImage} className='w-[2em] h-[2em] object-cover rounded-[100%]' /></div>
                   <p className='w-[8em]'>{student.firstName} {student.lastName}</p>
-                  <p className='w-[7em]'>{student.course}</p>
-                  <p>{student.password}</p>
+                  <p className='w-[10em]'>Working....</p>
+                  <p>Working....</p>
                 </div>
               )) : null
             }
@@ -96,4 +89,4 @@ const AdminPanel = () => {
   )
 }
 
-export default AdminPanel
+export default Attendance

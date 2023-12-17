@@ -4,7 +4,6 @@ import { ObjectId } from 'mongodb';
 import jwt from 'jsonwebtoken';
 import "dotenv/config"
 
-import { bucket } from "../firbase.mjs"
 import { upload } from "../multer.mjs"
 import { uploadOnCloudinary } from '../cloudinary.mjs'
 
@@ -38,13 +37,13 @@ router.post('/add-student', upload.any(), async (req, res, next) => {
         return;
     }
 
-    console.log( "yes",req.files[0].path);
+    console.log("yes", req.files[0].path);
 
     const localFilePath = req.files[0].path;
     const cloudinaryResponse = await uploadOnCloudinary(localFilePath);
 
     try {
-        
+
         const response = await studentCol.insertOne({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -68,6 +67,22 @@ router.post('/add-student', upload.any(), async (req, res, next) => {
     }
 
 })
+
+// get all students
+router.get('/students', async (req, res) => {
+    try {
+        const response = await studentCol.find({}).toArray();
+        res.send({
+            message: "students founded",
+            data: response
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "server error"
+        });
+    }
+});
 
 
 export default router

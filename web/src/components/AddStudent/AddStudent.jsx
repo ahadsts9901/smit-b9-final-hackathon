@@ -10,7 +10,7 @@ import { baseUrl } from "../../core.mjs"
 
 const AddStudent = (props) => {
 
-    const { setModal } = props
+    const { setModal, getAllStudents } = props
 
     const [selectedImage, setSelectedImage] = useState()
     const [message, setMessage] = useState("")
@@ -72,10 +72,12 @@ const AddStudent = (props) => {
             });
 
             event.target.reset()
+            getAllStudents()
 
             setTimeout(() => {
                 setModal(false)
             }, [1000])
+
 
         } catch (error) {
             console.error(error);

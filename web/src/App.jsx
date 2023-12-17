@@ -16,6 +16,7 @@ import "./App.css";
 import axios from "axios";
 
 import { baseUrl } from "./core.mjs";
+import Attendance from "./components/Attendance/Attendance";
 
 const App = () => {
   const { state, dispatch } = useContext(GlobalContext);
@@ -93,7 +94,8 @@ const App = () => {
         <>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/admin-panel" element={<AdminPanel/>} />
+            <Route path="/students" element={<AdminPanel/>} />
+            <Route path="/attendance" element={<Attendance/>} />
             <Route path="*" element={<Navigate to="/login" replace={true} />} />
           </Routes>
         </>
