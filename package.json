@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt-inzi": "^1.0.7",
+    "cloudinary": "^1.41.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

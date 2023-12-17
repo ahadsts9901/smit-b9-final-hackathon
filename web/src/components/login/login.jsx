@@ -26,8 +26,8 @@ const Login = () => {
   return (
     <form onSubmit={login} className='loginMain flex flex-col justify-center items-center gap-[1em] rounded-[5px] bg-[#fff] p-[1em]'>
       <MortarboardFill className='text-[2.5em] text-[#353535]' />
-      <input ref={loginEmailRef} type="email" placeholder='Email' className='bg-[#f6f6f6] text-[#353535] p-[0.6em] rounded-[3px] w-[100%]' />
-      <input ref={loginPasswordRef} type="password" placeholder='Password' className='bg-[#f6f6f6] text-[#353535] p-[0.6em] rounded-[3px] w-[100%]' />
+      <input required ref={loginEmailRef} type="email" placeholder='Email' className='bg-[#f6f6f6] text-[#353535] p-[0.6em] rounded-[3px] w-[100%]' />
+      <input required ref={loginPasswordRef} type="password" placeholder='Password' className='bg-[#f6f6f6] text-[#353535] p-[0.6em] rounded-[3px] w-[100%]' />
       <p className='w-[90%] text-center text-[#353535]'>{message}</p>
       <button type='submit' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>Login</button>
     </form>
