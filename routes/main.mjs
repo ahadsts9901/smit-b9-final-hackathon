@@ -58,8 +58,8 @@ router.post('/add-student', upload.any(), async (req, res, next) => {
             phoneNumber: req.body.phoneNumber,
             profileImage: cloudinaryResponse.url,
             isAdmin: false,
-            checkInTime : new Date(),
-            checkOutTime :  new Date(),
+            checkInTime: new Date(),
+            checkOutTime: new Date(),
         })
 
         res.send({
@@ -268,11 +268,7 @@ router.put('/check-in/:studentId', upload.any(), async (req, res) => {
         const checkInTime = moment(user.checkInTime);
         const checkOutTime = moment(user.checkOutTime);
 
-        const timeDifferenceMs = checkOutTime.diff(checkInTime);
-        const duration = moment.duration(timeDifferenceMs);
-        const hours = duration.hours();
-
-        if (hours <= 23) {
+        if (checkInTime < checkOutTime) {
             res.status(400).send({
                 message: "already checked in"
             })
@@ -296,5 +292,56 @@ router.put('/check-in/:studentId', upload.any(), async (req, res) => {
     }
 
 });
+
+// check out
+// ... (previous code)
+
+// checkout
+router.put('/check-out/:studentId', async (req, res) => {
+    const studentId = req.params.studentId;
+  
+    if (!studentId) {
+      res.status(400).send({
+        message: 'Invalid student id',
+      });
+      return;
+    }
+  
+    try {
+      const user = await studentCol.findOne({ _id: new ObjectId(studentId) });
+  
+      if (!user) {
+        res.status(404).send({
+          message: 'User not found',
+        });
+        return;
+      }
+  
+      const checkInTime = moment(user.checkInTime);
+      const checkOutTime = moment(user.checkOutTime);
+  
+      if (checkInTime >= checkOutTime) {
+        res.status(400).send({
+          message: 'User has not checked in yet',
+        });
+        return;
+      }
+  
+      const resp = await studentCol.updateOne(
+        { _id: studentId },
+        { $set: { checkOutTime: new Date().toISOString() } }
+      );
+  
+      res.send({
+        message: 'Check out successful',
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: 'Internal server error',
+      });
+    }
+  });
+  
 
 export default router

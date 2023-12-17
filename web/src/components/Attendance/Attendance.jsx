@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import axios from 'axios'
 import { baseUrl } from "../../core.mjs"
+import moment from 'moment'
 
 import { ClipboardData, MortarboardFill, Person, PlusCircleFill } from "react-bootstrap-icons"
 
@@ -86,8 +87,8 @@ const Attendance = () => {
                   <p className='w-[5em]'>{student._id.slice(-6)}</p>
                   <div className='w-[7em] flex justify-center items-center'><img src={student.profileImage} className='w-[2em] h-[2em] object-cover rounded-[100%]' /></div>
                   <p className='w-[8em]'>{student.firstName} {student.lastName}</p>
-                  <p className='w-[10em]'>Working....</p>
-                  <p>Working....</p>
+                  <p className='w-[10em]'>{moment(student.checkInTime).fromNow()}</p>
+                  <p>{moment(student.checkOutTime).fromNow()}</p>
                 </div>
               )) : null
             }

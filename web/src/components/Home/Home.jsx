@@ -11,13 +11,8 @@ const Home = () => {
   const [showModal, setShowModal] = useState(false)
   const { state, dispatch } = useContext(GlobalContext);
 
-  const checkInTime = moment(state.user.checkInTime);
-  const checkOutTime = moment(state.user.checkOutTime);
-  const timeDifferenceMs = checkOutTime.diff(checkInTime);
-  const duration = moment.duration(timeDifferenceMs);
-  const hours = duration.hours();
-
-  const isCheckedIn = hours <= 23
+  const timeElapsedSinceCheckIn = moment().diff(moment(state.user.checkInTime), 'hours')
+  const isCheckedIn = state.user.checkInTime < state.user.checkOutTime;
 
   const logout = async () => {
     try {
@@ -26,6 +21,10 @@ const Home = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const checkOut = async () => {
+    console.log("hi");
   }
 
   return (
@@ -40,19 +39,24 @@ const Home = () => {
         </div>
         <div className='flex flex-col gap-[1em] w-[100%] pt-[2em]'>
           <p className='text-[1.2em] text-[#888]'>Id</p>
-          <p className='text-[1.2em] text-[#353535]'>{state.user.userId}</p>
+          <p className='text-[1.2em] text-[#353535]'>{state.user.userId.slice(-6)}</p>
           <p className='text-[1.2em] text-[#888]'>Course</p>
           <p className='text-[1.2em] text-[#353535]'>{state.user.course}</p>
           <p className='text-[1.2em] text-[#888]'>Check In Time</p>
-          <p className='text-[1.2em] text-[#353535]'>{state.user.checkInTime || "------------"}</p>
+          <p className='text-[1.2em] text-[#353535]'>{moment(state.user.checkInTime).fromNow() || "------------"}</p>
           <p className='text-[1.2em] text-[#888]'>Check Out Time</p>
-          <p className='text-[1.2em] text-[#353535]'>{state.user.checkOutTime || "------------"}</p>
+          <p className='text-[1.2em] text-[#353535]'>{moment(state.user.checkOutTime).fromNow() || "------------"}</p>
         </div>
         {
-          isCheckedIn ?
-            <button  type='submit' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>Check Out</button>
-            :
-            <button onClick={() => setShowModal(true)} type='submit' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>Check In</button>
+          timeElapsedSinceCheckIn >= 23 ? (
+            <button onClick={() => setShowModal(true)} type='submit' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>
+              Check In
+            </button>
+          ) : (
+            <button onClick={checkOut} type='submit' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>
+              Check Out
+            </button>
+          )
         }
         <button onClick={logout} type='button' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>Logout</button>
       </div>
