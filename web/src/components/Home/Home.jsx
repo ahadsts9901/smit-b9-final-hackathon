@@ -15,8 +15,6 @@ const Home = () => {
 
   const isCheckedIn = state.user.checkInTime < state.user.checkOutTime;
 
-  console.log(isCheckedIn);
-
   const logout = async () => {
     try {
       const resp = await axios.post(`${baseUrl}/api/v1/logout`)

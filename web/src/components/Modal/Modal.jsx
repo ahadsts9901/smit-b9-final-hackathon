@@ -25,43 +25,101 @@ const Modal = (props) => {
             return;
         }
 
-        let formData = new FormData();
-        formData.append("files", fileRef.current.files[0])
+        // geo location
 
-        try {
-            const response = await axios.put(`${baseUrl}/api/v1/check-in/${state.user.userId}`, formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            })
-
-            // sweet alert toast
-            const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 1200,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
+        // Get user's current location
+        const getUserLocation = async () => {
+            return new Promise((resolve, reject) => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (location) => {
+                            resolve({
+                                latitude: location.coords.latitude,
+                                longitude: location.coords.longitude,
+                            });
+                        },
+                        (error) => reject(error)
+                    );
+                } else {
+                    reject("Geolocation not supported");
                 }
             });
-            Toast.fire({
-                title: "Check In Successfull"
-            });
+        };
 
-            event.target.reset()
+        try {
+            const userLocation = await getUserLocation();
 
-            setTimeout(() => {
-                setShowModal(false)
-            }, [1000])
+            // Coordinates of the location where the check-in is allowed
+            const allowedLatitude = 24.9365672
+            const allowedLongitude = 67.0887555
 
+            // function to check radius
 
+            const isWithinRadius = (lat1, lon1, lat2, lon2, radiusInMeters) => {
+                const earthRadius = 6371000; // Earth radius in meters
+
+                const dLat = (lat2 - lat1) * (Math.PI / 180);
+                const dLon = (lon2 - lon1) * (Math.PI / 180);
+                const a =
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                const distance = earthRadius * c;
+
+                return distance <= radiusInMeters;
+            };
+
+            // Check if the user is within the specified radius
+            const isWithinRadiusResult = isWithinRadius(
+                allowedLatitude,
+                allowedLongitude,
+                userLocation.latitude,
+                userLocation.longitude,
+                100
+            );
+
+            if (isWithinRadiusResult) {
+                // Proceed with check-in
+
+                let formData = new FormData();
+                formData.append("files", fileRef.current.files[0]);
+
+                const response = await axios.put(`${baseUrl}/api/v1/check-in/${state.user.userId}`,
+                    formData, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+
+                // sweet alert toast
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1200,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    },
+                });
+                Toast.fire({
+                    title: "Check In Successful",
+                });
+
+                event.target.reset();
+
+                setTimeout(() => {
+                    setShowModal(false);
+                }, 1000);
+            } else {
+                setMessage("You are not within the allowed radius for check-in");
+            }
         } catch (error) {
             console.error(error);
-            setMessage("Already Checked in, try later")
+            setMessage("Error getting location");
         }
-
-    }
+    };
 
     return (
         <form onSubmit={checkIn} className='addStudentForm text-[0.8em] flex flex-col justify-start items-center gap-[1.5em] bg-[#fff] text-[#353535] p-[3em] w-[40em] rounded-[10px]'>
@@ -92,6 +150,6 @@ const Modal = (props) => {
             </button>
         </form>
     );
-};
+}
 
 export default Modal;
