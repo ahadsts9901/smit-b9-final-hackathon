@@ -44,6 +44,8 @@ const Home = () => {
         title: "Check Out Successful"
       });
 
+      window.location.reload();
+
     } catch (error) {
       console.error(error);
       setMessage("Can't check out");
