@@ -44,7 +44,9 @@ const Home = () => {
         title: "Check Out Successful"
       });
 
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload()
+    }, 1000)
 
     } catch (error) {
       console.error(error);

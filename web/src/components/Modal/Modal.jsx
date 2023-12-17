@@ -113,7 +113,9 @@ const Modal = (props) => {
                     setShowModal(false);
                 }, 1000);
 
-                window.location.reload()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
 
             } else {
                 setMessage("You are not within the allowed radius for check-in");
