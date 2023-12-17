@@ -1,4 +1,3 @@
-import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import AdminPanel from "./components/AdminPanel/AdminPanel";
 
@@ -36,35 +35,29 @@ const App = () => {
       }
     );
 
-    return () => {
-      // cleanup function
-    };
-  }, []);
-
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const resp = await axios.get(`${baseUrl}/api/v1/ping`, {
-          withCredentials: true,
-        });
-        dispatch({
-          type: "USER_LOGIN",
-          payload: resp.data.data,
-        });
-      } catch (err) {
-        console.error(err);
-        dispatch({
-          type: "USER_LOGOUT",
-        });
-      }
-    };
-
     checkLoginStatus();
 
     return () => {
       // cleanup function
     };
   }, []);
+
+  const checkLoginStatus = async () => {
+    try {
+      const resp = await axios.get(`${baseUrl}/api/v1/ping`, {
+        withCredentials: true,
+      });
+      dispatch({
+        type: "USER_LOGIN",
+        payload: resp.data.data,
+      });
+    } catch (err) {
+      console.error(err);
+      dispatch({
+        type: "USER_LOGOUT",
+      });
+    }
+  };
 
   return (
     <div className="div">
@@ -73,8 +66,6 @@ const App = () => {
       {state.isLogin === true && state.user.isAdmin === false ? (
         <>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<Navigate to="/" replace={true} />} />
           </Routes>
         </>
       ) : null}
@@ -82,8 +73,9 @@ const App = () => {
       {state.isLogin === true && state.user.isAdmin === true ? (
         <>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<Navigate to="/" replace={true} />} />
+            <Route path="/students" element={<AdminPanel />} />
+            <Route path="/attendance" element={<Attendance />} />
+            <Route path="*" element={<Navigate to="/students" replace={true} />} />
           </Routes>
         </>
       ) : null}
@@ -94,8 +86,6 @@ const App = () => {
         <>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/students" element={<AdminPanel/>} />
-            <Route path="/attendance" element={<Attendance/>} />
             <Route path="*" element={<Navigate to="/login" replace={true} />} />
           </Routes>
         </>
@@ -104,7 +94,7 @@ const App = () => {
       {/* splash screen */}
       {state.isLogin === null ? (
         <>
-        <h1>Loading . . .</h1>
+          <h1>Loading . . .</h1>
         </>
       ) : null}
     </div>

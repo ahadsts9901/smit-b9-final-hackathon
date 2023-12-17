@@ -1,16 +1,24 @@
-import React, { useRef, useState } from 'react'
-
+import React, { useRef, useState, useContext } from 'react'
+import axios from 'axios'
 import { MortarboardFill } from "react-bootstrap-icons"
+import { baseUrl } from '../../core.mjs'
 
 import "../main.css"
 import "./Login.css"
+import { useNavigate } from 'react-router-dom'
+
+import { GlobalContext } from '../../context/context'
 
 const Login = () => {
+
+  const { state, dispatch } = useContext(GlobalContext);
 
   const [message, setMessage] = useState("")
 
   const loginEmailRef = useRef()
   const loginPasswordRef = useRef()
+
+  const navigate = useNavigate()
 
   const login = async (event) => {
 
@@ -19,6 +27,27 @@ const Login = () => {
     if (loginEmailRef.current.value.trim() === '' || loginPasswordRef.current.value.trim() === '') {
       setMessage("Please enter required fields")
       return;
+    }
+
+    try {
+
+      const response = await axios.post(`${baseUrl}/api/v1/login`, {
+        email: loginEmailRef.current.value,
+        password: loginPasswordRef.current.value
+      }, {
+        withCredentials: true
+      })
+
+      dispatch({
+        type: "USER_LOGIN",
+        payload: response.data.data,
+      });
+
+      setMessage("Login successful")
+
+    } catch (error) {
+      console.error(error);
+      setMessage("Email or password incorrect")
     }
 
   }

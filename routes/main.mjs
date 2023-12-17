@@ -51,7 +51,8 @@ router.post('/add-student', upload.any(), async (req, res, next) => {
             password: req.body.password,
             course: req.body.course,
             phoneNumber: req.body.phoneNumber,
-            profileImage: cloudinaryResponse.url
+            profileImage: cloudinaryResponse.url,
+            isAdmin: false
         })
 
         res.send({
@@ -71,7 +72,7 @@ router.post('/add-student', upload.any(), async (req, res, next) => {
 // get all students
 router.get('/students', async (req, res) => {
     try {
-        const response = await studentCol.find({}).toArray();
+        const response = await studentCol.find({}).sort({ _id: -1 }).toArray();
         res.send({
             message: "students founded",
             data: response
@@ -84,5 +85,31 @@ router.get('/students', async (req, res) => {
     }
 });
 
+router.get('/ping', async (req, res, next) => {
+
+    try {
+        let result = await studentCol.findOne({ email: req.body.currentUser.email });
+        console.log(result);
+        res.send({
+            message: 'profile fetched',
+            data: {
+                isAdmin: result.isAdmin,
+                firstName: result.firstName,
+                lastName: result.lastName,
+                email: result.email,
+                userId: result._id,
+                course: result.course,
+                phoneNumber: result.phoneNumber,
+                profileImage: result.profileImage,
+            }
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(401).send({
+            message: 'UnAuthorized'
+        });
+    }
+})
 
 export default router
