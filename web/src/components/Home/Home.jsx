@@ -4,15 +4,18 @@ import Modal from '../Modal/Modal';
 import axios from 'axios';
 import moment from 'moment';
 import { baseUrl } from '../../core.mjs';
+import Swal from 'sweetalert2';
 
 
 const Home = () => {
 
   const [showModal, setShowModal] = useState(false)
+  const [message, setMessage] = useState("")
   const { state, dispatch } = useContext(GlobalContext);
 
-  const timeElapsedSinceCheckIn = moment().diff(moment(state.user.checkInTime), 'hours')
   const isCheckedIn = state.user.checkInTime < state.user.checkOutTime;
+
+  console.log(isCheckedIn);
 
   const logout = async () => {
     try {
@@ -24,7 +27,29 @@ const Home = () => {
   }
 
   const checkOut = async () => {
-    console.log("hi");
+    try {
+      const response = await axios.put(`${baseUrl}/api/v1/check-out/${state.user.userId}`);
+
+      // sweet alert toast
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1200,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        title: "Check Out Successful"
+      });
+
+    } catch (error) {
+      console.error(error);
+      setMessage("Can't check out");
+    }
   }
 
   return (
@@ -48,7 +73,7 @@ const Home = () => {
           <p className='text-[1.2em] text-[#353535]'>{moment(state.user.checkOutTime).fromNow() || "------------"}</p>
         </div>
         {
-          timeElapsedSinceCheckIn >= 23 ? (
+          isCheckedIn ? (
             <button onClick={() => setShowModal(true)} type='submit' className='bg-[#0099ff] text-[#fff] p-[0.6em] rounded-[3px] w-[100%]'>
               Check In
             </button>

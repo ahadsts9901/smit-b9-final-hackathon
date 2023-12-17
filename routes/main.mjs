@@ -240,49 +240,47 @@ router.put('/student/:studentId', upload.any(), async (req, res) => {
 
 // check in
 router.put('/check-in/:studentId', upload.any(), async (req, res) => {
-
     const studentId = req.params.studentId;
 
     if (!studentId) {
         res.status(400).send({
             message: "invalid student id"
-        })
+        });
         return;
     }
 
-    if (!req.files) {
+    if (!req.files || req.files.length === 0) {
         res.status(400).send({
-            message: `required parameters missing eample request body: 
+            message: `required parameters missing example request body: 
                 {
                     "image" : "image"
                 }
                 `
-        })
+        });
         return;
     }
 
     try {
-
-        const user = studentCol.findOne({ _id: new ObjectId(studentId) })
+        const user = await studentCol.findOne({ _id: new ObjectId(studentId) });
 
         const checkInTime = moment(user.checkInTime);
         const checkOutTime = moment(user.checkOutTime);
 
-        if (checkInTime < checkOutTime) {
+        if (checkInTime > checkOutTime) {
             res.status(400).send({
                 message: "already checked in"
-            })
-            return
+            });
+            return;
         }
 
-        const resp = studentCol.updateOne(
-            { _id: studentId },
-            { $set: { checkInTime: new Date().toISOString } }
-        )
+        await studentCol.updateOne(
+            { _id: new ObjectId(studentId) },
+            { $set: { checkInTime: new Date().toISOString() } }
+        );
 
         res.send({
-            message: "check in successfull"
-        })
+            message: "check in successful"
+        });
 
     } catch (error) {
         console.error(error);
@@ -290,58 +288,55 @@ router.put('/check-in/:studentId', upload.any(), async (req, res) => {
             message: "internal server error",
         });
     }
-
 });
-
-// check out
-// ... (previous code)
 
 // checkout
 router.put('/check-out/:studentId', async (req, res) => {
     const studentId = req.params.studentId;
-  
+
     if (!studentId) {
-      res.status(400).send({
-        message: 'Invalid student id',
-      });
-      return;
-    }
-  
-    try {
-      const user = await studentCol.findOne({ _id: new ObjectId(studentId) });
-  
-      if (!user) {
-        res.status(404).send({
-          message: 'User not found',
-        });
-        return;
-      }
-  
-      const checkInTime = moment(user.checkInTime);
-      const checkOutTime = moment(user.checkOutTime);
-  
-      if (checkInTime >= checkOutTime) {
         res.status(400).send({
-          message: 'User has not checked in yet',
+            message: 'invalid student id',
         });
         return;
-      }
-  
-      const resp = await studentCol.updateOne(
-        { _id: studentId },
-        { $set: { checkOutTime: new Date().toISOString() } }
-      );
-  
-      res.send({
-        message: 'Check out successful',
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: 'Internal server error',
-      });
     }
-  });
-  
+
+    try {
+        const user = await studentCol.findOne({ _id: new ObjectId(studentId) });
+
+        if (!user) {
+            res.status(404).send({
+                message: 'user not found',
+            });
+            return;
+        }
+
+        const checkInTime = moment(user.checkInTime);
+        const checkOutTime = moment(user.checkOutTime);
+
+        if (checkInTime < checkOutTime) {
+            res.status(400).send({
+                message: 'user has not checked in yet',
+            });
+            return;
+        }
+
+        await studentCol.updateOne(
+            { _id: new ObjectId(studentId) },
+            { $set: { checkOutTime: new Date().toISOString() } }
+        );
+
+        res.send({
+            message: 'check out successful',
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: 'internal server error',
+        });
+    }
+});
+
+
 
 export default router
