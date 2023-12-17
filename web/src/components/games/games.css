@@ -1,0 +1,20 @@
+.gameWeb{
+    width: 100%;
+    height: 100%;
+}
+
+.backGame{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    width: 1.5em;
+    height: 1.5em;
+    background-color: #284352;
+    border-radius: 100%;
+    color: #fff!important;
+    cursor: pointer;
+}

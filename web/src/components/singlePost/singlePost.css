@@ -1,0 +1,102 @@
+.singlePostCont {
+    width: 425px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 0.5em 0em;
+    margin: 0 auto;
+    overflow-y: auto;
+}
+
+.commentSection {
+    font-size: 1.2em !important;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 1em;
+    padding: 0.5em 0em;
+}
+
+.seeWhoLiked {
+    width: 425px;
+    text-align: left;
+    font-size: 0.8em;
+    cursor: pointer;
+    padding: 1em;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+.backArrow {
+    width: 100%;
+    padding: 0.5em;
+    display: flex;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #284352;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.commentForm{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-end;
+    background-color: #fff;
+}
+
+.commentFormText{
+    width: 425px;
+    height: 7em!important;
+    border: 1px solid #ccc;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-radius: 0;
+    padding: 1em;
+    resize: none;
+}
+
+.commentButton{
+    width: fit-content;
+    padding: 0.5em;
+    border: 0;
+    background-color: #284352;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    font-size: 0.6em;
+}
+
+@media only screen and (max-width: 425px) {
+    .seeWhoLiked,.singlePostCont,.commentFormText, .commentForm {
+        width: 100%;
+    }
+}

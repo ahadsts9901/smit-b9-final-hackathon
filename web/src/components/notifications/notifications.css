@@ -1,0 +1,103 @@
+.testNotifications{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 0;
+    width: 425px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.testNotifications>.loader{
+    margin: auto;
+}
+
+.singleNotification{
+    width: 100%;
+    height: fit-content;
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    border-bottom: 1px solid #bababa;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.notifyImage{
+    width: 2.5em;
+    height: 2.5em;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.notifyContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 150px;
+}
+
+.notifyContent>h4{
+    color: #212121;
+    width: 100%;
+    text-align: left;
+    word-break: break-all;
+}
+
+.notifyContent>p{
+    color: #444;
+    font-size: 0.7em;
+    width: 100%;
+    text-align: left;
+}
+
+.notifyTime{
+    color: #444;
+    font-size: 0.5em;
+    width: 100%;
+    text-align: left;
+    width: 10em;
+}
+
+.notificationLeft{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1em;
+}
+
+.noNotification{
+    width: 100%;
+    text-align: center;
+    margin: auto 0 !important;
+}
+
+.notifyAct{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+@media only screen and (max-width: 425px){
+    .testNotifications{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 350px){
+    .notifyContent{
+        width: 100px;
+        font-size: 0.7em;
+    }
+}
+
+@media only screen and (max-width: 300px){
+    .notifyContent{
+        width: 80px;
+        font-size: 0.6em;
+    }
+}

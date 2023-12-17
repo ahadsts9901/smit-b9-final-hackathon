@@ -1,0 +1,98 @@
+.chatCont {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.searchButton {
+  width: fit-content !important;
+  height: 3em;
+  font-size: 0.8em;
+  color: #252525;
+  background-color: #28435200;
+  width: fit-content !important;
+  border: 0px;
+  font-size: 1em;
+  margin: 0em !important;
+  border-radius: 5px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.chatUsers {
+  width: 425px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  /* gap: 0.5em; */
+  margin: 0 auto !important;
+}
+
+#chatSearch {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 1.5em 0.5em;
+  gap: 0.5em;
+  background-color: #efefef;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 0 8px rgb(202, 198, 198) e;
+}
+
+#chatSearch>input {
+  width: 100%;
+  border: none;
+  background-color: #efefef;
+  padding-left: 1em;
+}
+
+#chatSearch>input::placeholder {
+  color: #9d9d9d;
+}
+
+#chatSearch>button {
+  background-color: #00000000;
+  color: #9d9d9d;
+  border: 0;
+}
+
+.chatUsersChats {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 0;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.searchUsers {
+  width: 100%;
+  text-align: center;
+  justify-self: center;
+  font-size: 1.5em;
+  margin: auto 0 !important;
+}
+
+.chatUsersChats .loader{
+  margin: auto!important;
+}
+
+.headSect{
+  cursor: pointer;
+}
+
+@media (max-width: 425px) {
+  .chatUsers {
+    width: 100%;
+  }
+}

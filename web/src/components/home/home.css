@@ -1,0 +1,127 @@
+* {
+    font-family: "Jost", "Poppins", "Jakarta Sans", sans-serif;
+    font-weight: 700 !important;
+    outline: none !important;
+}
+
+body {
+    color: #284352 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: center;
+    row-gap: 2em !important;
+    padding: 2em 1em;
+    margin: 0em;
+    width: 100vw;
+    height: 100vh;
+}
+
+#root,
+.div {
+    width: 100%;
+    height: 100%;
+    padding: 0em !important;
+}
+
+i,
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0em !important;
+}
+
+.result {
+    display: flex;
+    flex-direction: column !important;
+    justify-content: right !important;
+    align-items: center;
+    gap: 1em;
+    padding: 0em !important;
+    width: 100%;
+    height: 100%;
+    flex-wrap: nowrap !important;
+    overflow-y: auto;
+}
+
+.noPostMessage, .loadContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 1em;
+}
+
+/* loaders */
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #284352;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+.result::-moz-scrollbar {
+    width: 4px;
+    background-color: #28435200;
+}
+
+
+.result::-webkit-scrollbar {
+    width: 4px;
+    background-color: #28435200;
+}
+
+.result::-moz-scrollbar-thumb {
+    width: 4px !important;
+    background-color: #284352;
+    border: none;
+    border-radius: 5px !important;
+}
+
+.result::-moz-scrollbar-track {
+    width: 4px;
+    background-color: #28435200;
+}
+
+.result::-webkit-scrollbar-track {
+    width: 4px;
+    background-color: #28435200;
+}
+
+.result::-webkit-scrollbar-thumb {
+    width: 4px !important;
+    background-color: #284352;
+    border: none;
+    border-radius: 5px !important;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media(max-width:425px){
+    .result::-moz-scrollbar {
+       display: none;
+    }
+    
+    .result::-webkit-scrollbar {
+        display: none;
+    }
+}

@@ -1,0 +1,189 @@
+* {
+    font-family: "Jost", "Poppins", "Jakarta Sans", sans-serif;
+    font-weight: 700 !important;
+    outline: none !important;
+}
+
+body {
+    /* background-image: url(./background.png); */
+    /* background-repeat: repeat; */
+    /* background-position: center; */
+    background-color: #efefef !important;
+    color: #284352 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: center;
+    row-gap: 2em !important;
+    padding: 2em 1em;
+    margin: 0em;
+    width: 100vw;
+    height: 100vh;
+}
+
+i,
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0em !important;
+}
+
+.singlePost {
+    background-color: #fff;
+    width: 100%;
+    height: fit-content;
+    padding: 1.2em 0em;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: center;
+    gap: 0.9em;
+    min-width: 250px!important;
+    max-width: 425px!important;
+}
+
+.postHead {
+    display: flex;
+    align-items: start;
+    gap: 1em;
+    width: 100%;
+    height: fit-content;
+    padding: 0em 1.2em;
+    cursor: pointer;
+}
+
+.postHead>img {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.postNames {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: start;
+}
+
+.postNames>h2 {
+    font-size: 1.3em !important;
+    font-weight: bold;
+    color: #252525;
+    word-wrap: break-word !important;
+}
+
+.postNames>p {
+    font-size: 0.7em !important;
+    color: #999;
+    word-wrap: break-word !important;
+}
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: center;
+    gap: 1em;
+    font-size: 0.8em;
+    width: 100%;
+}
+
+.textContainer>p {
+    width: 100%;
+    text-align: left;
+    color: #252525;
+    cursor: pointer;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.3em;
+    width: 100%;
+    border-top: 1px solid #dadada;
+    padding: 0em;
+    font-size: 0.8em;
+    padding: 0em 1.2em;
+    padding-top: 1em;
+}
+
+.buttonContainer>button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding: 0.5em;
+    font-size: 0.8em;
+    border: none;
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttonContainer>button:hover {
+    background-color: #eaeaea;
+}
+
+.postLine {
+    width: 100%;
+    background-color: #888;
+    padding: 0.3em 1.2em;
+}
+
+.hidden {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.see {
+    color: #888;
+    cursor: pointer;
+}
+
+.bigText {
+    font-size: 1.5em;
+    text-align: center !important;
+    min-height: 10em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff !important;
+    font-weight: bold;
+    background: rgb(98, 152, 148) !important;
+    background: linear-gradient(306deg, rgba(98, 152, 148, 1) 0%, rgba(40, 70, 82, 1) 71%) !important;
+    word-wrap: break-word !important;
+    word-break: break-all;
+}
+
+.smallText {
+    text-align: left;
+    font-size: 1em;
+    padding: 0em 1.5em;
+    word-wrap: break-word !important;
+}
+
+.editDelBtns{
+    font-size: 1.2em;
+}
+
+#editText{
+    height: 15em!important;
+    padding: 1em;
+    border-radius: 0px!important;
+}
+
+.postImg{
+    cursor: pointer;
+}

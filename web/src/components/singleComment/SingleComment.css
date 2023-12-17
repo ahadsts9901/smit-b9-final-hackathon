@@ -1,0 +1,106 @@
+.singleComment {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 0.7em;
+    padding: 1em;
+    background-color: #fff;
+    font-size: 0.7em;
+    border-radius: 5px;
+    width: 90%;
+}
+
+.singleCommentHead {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 0.5em;
+}
+
+.singleCommentHead>img {
+    width: 2em;
+    height: 2em;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.singleCommentHead>p {
+    color: #313131;
+}
+
+#time {
+    font-size: 0.7em;
+    color: #313131;
+    justify-self: end;
+    margin-left: auto;
+    text-align: right;
+}
+
+.commentText {
+    width: 100%;
+    color: #414141;
+    text-align: left;
+    margin: 0.5em 0;
+    font-size: 0.9em;
+    word-break: break-all;
+}
+
+.comment::first-line {
+    padding-left: 3em;
+}
+
+.commentMenu {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 1em;
+    padding: 0em;
+    padding-top: 0;
+    font-size: 0.8em;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #414141;
+    z-index: 1;
+}
+
+.actionContComment {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-end;
+    gap: 1em;
+}
+
+.leftFloatComment{
+    width:3em;
+    float: left;
+    color: #00000000;
+}
+
+#commentLikeBtn,#totalCommentLikes{
+    margin-top: 1em;
+    font-size: 0.7em;
+    border-radius: 5px;
+    padding: 0.5em;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    cursor: pointer;
+}
+
+#commentLikeBtn:hover,#totalCommentLikes:hover{
+    background-color: #ececec;
+}
+
+.likesContComment{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
