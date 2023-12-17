@@ -3,17 +3,20 @@ import { Link } from "react-router-dom"
 import axios from 'axios'
 import { baseUrl } from "../../core.mjs"
 
-import { ArrowLeft, Camera, CameraFill, ClipboardData, MortarboardFill, Person, PlusCircleFill } from "react-bootstrap-icons"
+import { ArrowLeft, Camera, CameraFill, ClipboardData, MortarboardFill, PencilFill, EyeFill, Person, PlusCircleFill } from "react-bootstrap-icons"
 
 import AddStudent from '../AddStudent/AddStudent'
 
 import "./AdminPanel.css"
 import "../main.css"
+import EditStudent from '../EditStudent/EditStudent'
 
 const AdminPanel = () => {
 
   const [modal, setModal] = useState(false)
   const [students, setStudents] = useState([])
+  const [isEditStudent, setIsEditStudent] = useState(false)
+  const [student, setStudent] = useState()
 
   useEffect(() => {
     getAllStudents()
@@ -32,8 +35,26 @@ const AdminPanel = () => {
 
   }
 
+  const editStudent = async (studentId) => {
+
+    setIsEditStudent(true)
+
+    try {
+
+      const resp = await axios.get(`${baseUrl}/api/v1/student/${studentId}`)
+      setStudent(resp.data.data)
+
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
   return (
     <>
+      {
+        isEditStudent ? <EditStudent setIsEditStudent={setIsEditStudent} student={student} /> : null
+      }
       {
         modal ? <AddStudent setModal={setModal} getAllStudents={getAllStudents} /> : null
       }
@@ -75,7 +96,7 @@ const AdminPanel = () => {
             <p className='w-[7em]'>Profile Image</p>
             <p className='w-[8em]'>Name</p>
             <p className='w-[7em]'>Course Name</p>
-            <p>Password</p>
+            <p className='w-[6em]'>Password</p>
           </div>
           <div className='studentsCont w-[100%] flex flex-col gap-[1em] h-[100%]'>
             {
@@ -85,7 +106,9 @@ const AdminPanel = () => {
                   <div className='w-[7em] flex justify-center items-center'><img src={student.profileImage} className='w-[2em] h-[2em] object-cover rounded-[100%]' /></div>
                   <p className='w-[8em]'>{student.firstName} {student.lastName}</p>
                   <p className='w-[7em]'>{student.course}</p>
-                  <p>{student.password}</p>
+                  <p className='w-[6em]'>{student.password}</p>
+                  <PencilFill onClick={() => { editStudent(student._id) }} className='cursor-pointer' />
+                  <EyeFill className='cursor-pointer' />
                 </div>
               )) : null
             }

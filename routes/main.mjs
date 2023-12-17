@@ -37,8 +37,6 @@ router.post('/add-student', upload.any(), async (req, res, next) => {
         return;
     }
 
-    console.log("yes", req.files[0].path);
-
     const localFilePath = req.files[0].path;
     const cloudinaryResponse = await uploadOnCloudinary(localFilePath);
 
@@ -85,6 +83,7 @@ router.get('/students', async (req, res) => {
     }
 });
 
+// authentication
 router.get('/ping', async (req, res, next) => {
 
     try {
@@ -111,5 +110,121 @@ router.get('/ping', async (req, res, next) => {
         });
     }
 })
+
+// get a student
+router.get('/student/:studentId', async (req, res) => {
+    const studentId = req.params.studentId;
+
+    try {
+        const response = await studentCol.findOne({ _id: new ObjectId(studentId) });
+        console.log("response: ", response);
+
+        if (!response) {
+            return res.status(404).json({
+                message: "Student not found",
+            });
+        }
+
+        res.json({
+            message: "Student found",
+            data: response,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Server error",
+        });
+    }
+});
+
+// edit a student
+router.put('/student/:studentId', upload.any(), async (req, res) => {
+
+    const studentId = req.params.studentId;
+    const firstName = req.body.firstName
+    const lastName = req.body.lastName
+    const email = req.body.email
+    const phoneNumber = req.body.phoneNumber
+    const password = req.body.password
+    const course = req.body.course
+
+    if (!studentId) {
+        res.status(400).send({
+            message: "invalid student id"
+        })
+        return;
+    }
+
+    if (!firstName || !lastName || !email || !password
+        || !phoneNumber || !course) {
+        res.status(400).send({
+            message: `required parameters missing eample request body: 
+                {
+                    "firstName" : "firstName",
+                    "lastName" : "lastName",
+                    "email" : "email",
+                    "password" : "password",
+                    "course" : "course",
+                    "phoneNumber" : "phoneNumber",
+                    "image" : "image"
+                }
+                `
+        })
+        return;
+    }
+
+    if (req.files) {
+        const localFilePath = req.files[0].path;
+        const cloudinaryResponse = await uploadOnCloudinary(localFilePath);
+
+        try {
+            const response = await studentCol.updateOne(
+                { _id: new ObjectId(studentId) },
+                {
+                    $set: {
+                        firstName, lastName, email, password, course, phoneNumber,
+                        profileImage: cloudinaryResponse.url
+                    }
+                }
+            );
+
+            if (!response) {
+                return res.status(404).json({
+                    message: "student not found",
+                });
+            }
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({
+                message: "internal server error",
+            });
+        }
+
+    } else {
+        try {
+            const response = await studentCol.updateOne(
+                { _id: new ObjectId(studentId) },
+                {
+                    $set: {
+                        firstName, lastName, email, password, course, phoneNumber,
+                    }
+                }
+            );
+
+            if (!response) {
+                return res.status(404).json({
+                    message: "student not found",
+                });
+            }
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({
+                message: "internal erver error",
+            });
+        }
+    }
+});
 
 export default router
